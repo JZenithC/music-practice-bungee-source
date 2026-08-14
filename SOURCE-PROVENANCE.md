@@ -28,6 +28,20 @@ the Stage 1 production WASM (see "Relationship to the shipped WASM" below).
 None of these three submodules declare any further nested submodules at
 these pins.
 
+## r2 correction (2026-08-14)
+
+The initial `bungee-v2.4.24-mpa-stage1` (r1) release had correct file
+**contents** but lost Git executable-mode metadata for 19 upstream files (2
+Bungee workflow scripts, 17 Eigen scripts/tools) — they were published as
+`100644` instead of their upstream `100755`. Root cause: this repository was
+first materialized on a Windows machine with `core.filemode=false`, which
+made `git add` ignore the source files' actual permission bits. The `r2`
+tag/release (this commit) corrects the Git mode for exactly those 19 paths
+via a mode-only index change; no file bytes changed. `SOURCE-GIT-MODES.txt`
+(added in r2) records the full mode state so this class of loss is
+independently checkable going forward. The r1 tag/release remain published,
+unaltered, as historical evidence, with their descriptions marked superseded.
+
 ## Source acquisition
 
 - **Acquisition date:** 2026-08-14
@@ -56,6 +70,13 @@ mismatches. No upstream source file content was intentionally modified,
 and none was found to differ. Line endings, whitespace, licence text, and
 copyright notices were left exactly as stored upstream — nothing was
 normalized.
+
+**Verification of exact Git file mode:** separately from content, every
+file's Git mode (`100644` ordinary / `100755` executable) was compared
+against the upstream `git ls-tree` mode at the pinned commit for all 1,966
+files. `SOURCE-GIT-MODES.txt` records the resulting mode for every packaged
+file so this can be independently re-checked without needing local clones
+of the upstream repositories.
 
 Because materializing gitlinks into directories necessarily changes the
 packaging tree representation, **the git tree hash of this repository does

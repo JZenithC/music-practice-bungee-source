@@ -47,7 +47,9 @@ self-hosting.
 ```
 README.md                  this file
 SOURCE-PROVENANCE.md        exact commit pins, URLs, acquisition record
-SHA256SUMS                  hashes of the release archive
+SHA256SUMS                  hash of the release archive
+SOURCE-SHA256SUMS.txt       per-file content hash of every packaged file
+SOURCE-GIT-MODES.txt        per-file Git mode (644/755) of every packaged file
 source/                     the exact Bungee checkout (unmodified)
   submodules/
     eigen/                  pinned Eigen snapshot (unmodified)
@@ -57,3 +59,11 @@ source/                     the exact Bungee checkout (unmodified)
 
 A tagged, hash-manifested release archive of this snapshot is published
 under this repository's Releases.
+
+## Releases
+
+- **`bungee-v2.4.24-mpa-stage1-r2`** — current. Corrects lost Git
+  executable-mode metadata on 19 files (file contents were already correct
+  in r1; see `SOURCE-PROVENANCE.md`).
+- `bungee-v2.4.24-mpa-stage1` (r1) — superseded; kept published as
+  historical evidence. Do not use for source-fidelity verification.
